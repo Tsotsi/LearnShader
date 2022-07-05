@@ -1,3 +1,3 @@
 # LearnShade
 
-Learning shade with glow
+Learning shade with glfw
