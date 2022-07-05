@@ -5,12 +5,10 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
-    cout << "hello world!" << endl;
     if (!glfwInit())
     {
         return 1;
     }
-
     glfwSetErrorCallback(error_callback);
 
     // 创建window
@@ -20,18 +18,23 @@ int main(int argc, char** argv)
     GLFWwindow* window = glfwCreateWindow(800, 600, "My Shade Learning", NULL, NULL);
     if (!window)
     {
+        glfwTerminate();
         return 2;
     }
-    glfwMakeContextCurrent(window);
     glfwSetKeyCallback(window, key_callback);
-
+    glfwMakeContextCurrent(window);
     // rendering with opengl
-    int width, height;
-    glfwGetFramebufferSize(window, &width, &height);
-    glViewport(0, 0, width, height);
+    // int width, height;
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    // glfwGetFramebufferSize(window, &width, &height);
+    // glViewport(0, 0, width, height);
 
 
-
+while (!glfwWindowShouldClose(window))
+{
+    // Keep running
+    glfwPollEvents();
+}
     glfwDestroyWindow(window);
 
 
