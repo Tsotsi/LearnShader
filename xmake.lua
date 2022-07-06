@@ -6,7 +6,6 @@ add_requires("glfw ^3.3.4", "glad")
 target("LearnShade")
     set_kind("binary")
     add_files("src/*.cpp")
-    add_includedirs("vendor/glfw/include")
     add_packages("glfw", "glad")
 
 --
