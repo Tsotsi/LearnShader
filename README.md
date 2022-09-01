@@ -1,3 +1,3 @@
 # LearnShader
 
-Learning shade with glfw
+Learning shader with glfw
