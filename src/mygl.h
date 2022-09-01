@@ -9,9 +9,9 @@
 #endif
 
 #include <stdio.h>
-#include <bx/bx.h>
-#include <bgfx/bgfx.h>
-#include <bgfx/platform.h>
+//#include <bx/bx.h>
+//#include <bgfx/bgfx.h>
+//#include <bgfx/platform.h>
 #include <GLFW/glfw3.h>
 #if BX_PLATFORM_LINUX
 #define GLFW_EXPOSE_NATIVE_X11
@@ -30,7 +30,8 @@ void error_callback(int error, const char* description);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void display(GLFWwindow* window, double currentTime);
-
+unsigned int compileShader(const std::string& source, unsigned int type);
+unsigned int createShader(const std::string& vertexShader, const std::string& fragmentShader);
 int app();
 int appWithBgfx();
 #endif //LEARNSHADE_GL_H

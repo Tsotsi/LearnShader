@@ -1,2 +1,6 @@
 #! /usr/bin/env sh
-xmake -w && xmake run
+
+# gen cmake file
+xmake project -k cmake
+
+xmake r
