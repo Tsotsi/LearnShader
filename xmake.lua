@@ -2,11 +2,12 @@ add_rules("mode.debug", "mode.release")
 
 
 add_requires("glfw ^3.3.4", "glad", "bgfx")
+add_requires("imgui v1.87-docking", {configs = {glfw_opengl3 = true}})
 
 target("LearnShade")
     set_kind("binary")
     add_files("src/*.cpp")
-    add_packages("glfw", "glad", "bgfx")
+    add_packages("glfw", "glad", "bgfx", "imgui")
     set_languages("c17", "cxx14")
 
 --
