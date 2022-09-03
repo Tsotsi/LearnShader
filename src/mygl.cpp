@@ -99,13 +99,16 @@ static const std::string vertex_shader_str =
         "layout(location = 0) in vec4 position;\n"
         "void main(){\n"
         "gl_Position = position;\n"
+//        "if(gl_VertexID == 0) gl_Position = vec4(0.25, -0.25, 0.0, 1.0);\n"
+//        "else if(gl_VertexID == 1) gl_Position = vec4(-0.25, -0.25, 0.0, 1.0);\n"
+//        "else if(gl_VertexID == 2) gl_Position = vec4(0.25, 0.25, 0.0, 1.0);\n"
         "}\n";
 static const std::string fragment_shader_str =
         "#version 330 core\n"
         "\n"
         "layout(location = 0) out vec4 color;\n"
         "void main(){\n"
-        "color = vec4( 1.0, 0.0, 0.0, 1.0 );\n"
+        "color = vec4( 1.0, 1.0, 0.0, 1.0 );\n"
         "}\n";
 
 int app() {
@@ -116,10 +119,10 @@ int app() {
 
     // 创建window
 
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     GLFWwindow *window = glfwCreateWindow(800, 600, "My Shade Learning", NULL, NULL);
     if (!window) {
         glfwTerminate();
@@ -128,8 +131,8 @@ int app() {
 
     glfwSetKeyCallback(window, key_callback);
     glfwMakeContextCurrent(window);
-    gladLoadGL();
-//    gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+//    gladLoadGL();
+    gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
     // rendering with opengl
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 //     int width, height;
@@ -174,14 +177,19 @@ int app() {
     unsigned int buf;
     float positions[6] = {
             -.5f, -.5f,
-            0.0f, .5f,
+            0.0f, 0.5f,
             .5f, -.5f,
     };
-    glGenVertexArrays(1, &buf);
-    glBindVertexArray(buf);
-//    glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), positions, GL_STATIC_DRAW);
+    glGenBuffers(1, &buf);
+    glBindBuffer(GL_ARRAY_BUFFER, buf);
+    glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), positions, GL_STATIC_DRAW);
+    unsigned int vao;
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
+    glBindBuffer(GL_ARRAY_BUFFER, buf);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
+//    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
     unsigned int shader = createShader(vertex_shader_str, fragment_shader_str);
 
     std::cout << "shader id: " << shader << std::endl;
@@ -216,11 +224,11 @@ int app() {
         glfwGetFramebufferSize(window, &width, &height);
         const float ratio = width / (float) height;
 
-        glViewport(0, 0, width, height);
+//        glViewport(0, 0, width, height);
         glClear(GL_COLOR_BUFFER_BIT);
         glUseProgram(shader);
 //        glBindBuffer(GL_ARRAY_BUFFER, buf);
-        glBindVertexArray(buf);
+//        glBindVertexArray(buf);
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
         glfwSwapBuffers(window);
